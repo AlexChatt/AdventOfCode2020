@@ -40,6 +40,10 @@ int main()
 				num1 = Numbers[i];
 				num2 = Numbers[j];
 				foundCombo1 = true;
+
+				answer = num1 * num2;
+				std::cout << num1 << " + " << num2 << " = " << num1 + num2 << '\n';
+				std::cout << num1 << " * " << num2 << " = " << answer << '\n';
 			}
 
 			for (int k = j + 1; k < Numbers.size() && !foundCombo2; k++)
@@ -50,18 +54,14 @@ int main()
 					num2 = Numbers[j];
 					num3 = Numbers[k];
 					foundCombo2 = true;
+
+					answer = num1 * num2 * num3;
+					std::cout << num1 << " + " << num2 << " + " << num3 << " = " << num1 + num2 + num3 << '\n';
+					std::cout << num1 << " * " << num2 << " * " << num3 << " = " << answer << '\n';
 				}
 			}
 		}
 	}
-
-	answer = num1 * num2;
-	std::cout << num1 << " + " << num2 << " = " << num1 + num2 << '\n';
-	std::cout << num1 << " * " << num2 << " = " << answer << '\n';
-
-	answer = num1 * num2 * num3;
-	std::cout << num1 << " + " << num2 << " + " << num3 << " = " << num1 + num2 + num3 << '\n';
-	std::cout << num1 << " * " << num2 << " * " << num3 << " = " << answer << '\n';
 
 	std::cin.get();
 }
