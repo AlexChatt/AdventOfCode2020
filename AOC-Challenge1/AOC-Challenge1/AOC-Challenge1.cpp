@@ -35,7 +35,7 @@ int main()
 	{
 		for (int j = i+1; j < Numbers.size() && (!foundCombo1 || !foundCombo2); j++)
 		{
-			if (Numbers[i] + Numbers[j] == 2020)
+			if (Numbers[i] + Numbers[j] == 2020 && !foundCombo1)
 			{
 				num1 = Numbers[i];
 				num2 = Numbers[j];
