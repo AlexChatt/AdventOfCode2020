@@ -14,7 +14,7 @@ int main()
 
 	if (!report)
 	{
-		std::cout << "Cant not open expense report";
+		std::cout << "Can not open expense report";
 		return 1;
 	}
 
