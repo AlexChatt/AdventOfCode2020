@@ -28,17 +28,29 @@ int main()
 	}
 	report.close();
 
-	bool foundCombo = false;
+	bool foundCombo1 = false;
+	bool foundCombo2 = false;
 
-	for (int i = 0; i < Numbers.size() && !foundCombo; i++)
+	for (int i = 0; i < Numbers.size() && (!foundCombo1 || !foundCombo2); i++)
 	{
-		for (int j = i+1; j < Numbers.size() && !foundCombo; j++)
+		for (int j = i+1; j < Numbers.size() && (!foundCombo1 || !foundCombo2); j++)
 		{
 			if (Numbers[i] + Numbers[j] == 2020)
 			{
 				num1 = Numbers[i];
 				num2 = Numbers[j];
-				foundCombo = true;
+				foundCombo1 = true;
+			}
+
+			for (int k = j + 1; k < Numbers.size() && !foundCombo2; k++)
+			{
+				if (Numbers[i] + Numbers[j] + Numbers[k] == 2020)
+				{
+					num1 = Numbers[i];
+					num2 = Numbers[j];
+					num3 = Numbers[k];
+					foundCombo2 = true;
+				}
 			}
 		}
 	}
@@ -46,25 +58,6 @@ int main()
 	answer = num1 * num2;
 	std::cout << num1 << " + " << num2 << " = " << num1 + num2 << '\n';
 	std::cout << num1 << " * " << num2 << " = " << answer << '\n';
-
-	foundCombo = false;
-
-	for (int i = 0; i < Numbers.size() && !foundCombo; i++)
-	{
-		for (int j = i + 1; j < Numbers.size() && !foundCombo; j++)
-		{
-			for (int k = j + 1; k < Numbers.size() && !foundCombo; k++)
-			{
-				if (Numbers[i] + Numbers[j] + Numbers[k] == 2020)
-				{
-					num1 = Numbers[i];
-					num2 = Numbers[j];
-					num3 = Numbers[k];
-					foundCombo = true;
-				}
-			}
-		}
-	}
 
 	answer = num1 * num2 * num3;
 	std::cout << num1 << " + " << num2 << " + " << num3 << " = " << num1 + num2 + num3 << '\n';
