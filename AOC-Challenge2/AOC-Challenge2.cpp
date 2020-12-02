@@ -6,7 +6,8 @@
 #include <fstream>
 #include <regex>
 
-bool CheckPasswordValid(uint16_t min, uint16_t max, char CharToLookFor, std::string password);
+bool CheckPasswordValidPart1(uint16_t min, uint16_t max, char CharToLookFor, std::string password);
+bool CheckPasswordValidPart2(uint16_t LetterIndex1, uint16_t LetterIndex2, char CharToLookFor, std::string password);
 
 int main()
 {
@@ -20,7 +21,8 @@ int main()
 
 	std::regex PasswordSearchReg("[^0-9]*([0-9]+)-*([0-9]+) ([a-z]): ([a-z]*)");
 
-	uint16_t NumberValidPasswords = 0;
+	int NumberValidPasswordsP1 = 0;
+	int NumberValidPasswordsP2 = 0;
 
 	std::string line;
 	while (std::getline(passwordsFile, line))
@@ -41,21 +43,28 @@ int main()
 					LetterExpected = ((std::string)foundMatches[3])[0];
 					Password = foundMatches[4];
 
-					if (CheckPasswordValid(MinNumExpected, MaxNumExpected, LetterExpected, Password))
+					if (CheckPasswordValidPart1(MinNumExpected, MaxNumExpected, LetterExpected, Password))
 					{
-						NumberValidPasswords++;
+						NumberValidPasswordsP1++;
+					}
+
+					if (CheckPasswordValidPart2(MinNumExpected, MaxNumExpected, LetterExpected, Password))
+					{
+						NumberValidPasswordsP2++;
 					}
 				}
 			}
 		}
 	}
-	std::cout << "number of valid passwords is: " << NumberValidPasswords;
+
+	std::cout << "Number of valid passwords for part1 is: " << NumberValidPasswordsP1 << std::endl;
+	std::cout << "Number of valid passwords for part2 is: " << NumberValidPasswordsP2 << std::endl;
 
 	return 0;
 }
 
 
-bool CheckPasswordValid(uint16_t min, uint16_t max, char CharToLookFor, std::string password)
+bool CheckPasswordValidPart1(uint16_t min, uint16_t max, char CharToLookFor, std::string password)
 {
 	int Count = 0;
 
@@ -73,4 +82,32 @@ bool CheckPasswordValid(uint16_t min, uint16_t max, char CharToLookFor, std::str
 	}
 
 	return false;
+}
+
+bool CheckPasswordValidPart2(uint16_t LetterIndex1, uint16_t LetterIndex2, char CharToLookFor, std::string password)
+{
+	bool CheckOneHasLetter = false;
+	bool CheckTwoHasLetter = false;
+
+	LetterIndex1 -= 1;
+	LetterIndex2 -= 1;
+
+	if (LetterIndex1 < password.size())
+	{
+		if (password[LetterIndex1] == CharToLookFor)
+		{
+			CheckOneHasLetter = true;
+		}
+	}
+
+	if (LetterIndex2 < password.size())
+	{
+		if (password[LetterIndex2] == CharToLookFor)
+		{
+			CheckTwoHasLetter = true;
+		}
+	}
+
+
+	return (CheckOneHasLetter ^ CheckTwoHasLetter);
 }
