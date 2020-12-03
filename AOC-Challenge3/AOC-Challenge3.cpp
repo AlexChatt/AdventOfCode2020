@@ -116,7 +116,7 @@ int GetTreesHitWithPath(std::vector<std::vector<char>> CurrentMap, uint16_t acro
     int maxtries = CurrentMap.size() * CurrentMap[0].size();
     int attempts = 0;
 
-    while (CurrentXIndex != CurrentMap[0].size() && CurrentYIndex < CurrentMap.size())
+    while (CurrentYIndex < CurrentMap.size())
     {
         if (CurrentMap[CurrentYIndex][CurrentXIndex] == TreeIcon)
         {
