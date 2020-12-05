@@ -48,13 +48,13 @@ int Plane::CalculateSeatID(std::string BSPKey)
 		{
 			LowestRow = ceil((float)((LowestRow + HighestRow) / 2.0f));
 		}
-		else if (*it == 'R')
-		{
-			LowestCol = ceil((float)((LowestCol + HighestCol) / 2.0f));
-		}
 		else if (*it == 'L')
 		{
 			HighestCol = floor((float)((LowestCol + HighestCol) / 2.0f));
+		}
+		else if (*it == 'R')
+		{
+			LowestCol = ceil((float)((LowestCol + HighestCol) / 2.0f));
 		}
 	}
 
@@ -73,8 +73,8 @@ void Plane::GetFreeSeat()
 	int MySeatID = 0;
 	int16_t MyRow = -1, MyCol = -1;
 
-
 	bool FoundSeat = false;
+
 	for (int row = 1; row < rows - 1 && !FoundSeat; row++)
 	{
 		for (int col = 0; col < columns && !FoundSeat; col++)
