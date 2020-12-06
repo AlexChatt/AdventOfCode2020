@@ -18,7 +18,7 @@ void Plane::GetHightestSeatID()
 {
 	int HighestSeatID = 0;
 	std::string BSPSeatID;
-
+	
 	for (std::vector<std::string>::iterator it = BordinginfoList.begin(); it != BordinginfoList.end(); ++it)
 	{
 		int SeatID = CalculateSeatID(*it);
