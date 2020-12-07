@@ -163,8 +163,8 @@ uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules, in
             for (std::vector<std::pair<std::string, uint16_t>>::iterator pairit = Bit->ContainedBags.begin();
                 pairit != Bit->ContainedBags.end(); ++pairit)
             {
-                int memes = (NumBagGoldHoldsCount(pairit->first, BagRules, pairit->second));
-                ContainerCount += std::max(MyBagCount,1) * memes;
+                int SubBagCount = (NumBagGoldHoldsCount(pairit->first, BagRules, pairit->second));
+                ContainerCount += std::max(MyBagCount,1) * SubBagCount;
             }
         }
     }
