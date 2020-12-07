@@ -16,18 +16,18 @@ void CheckLetterStillValid(std::string letters, std::vector<char> &List);
 
 int main()
 {
-    std::vector<std::string> FileLines = GetLinesFromFile("input.txt");
+    const std::vector<std::string> FileLines = GetLinesFromFile("input.txt");
 
     if (FileLines.size() <= 0)
     {
         return -1;
     }
 
-    uint32_t TotalCountP1 = GetYesCount(FileLines);
+    const uint32_t TotalCountP1 = GetYesCount(FileLines);
     std::cout << "Total number of questions that groups answered yes to is " << TotalCountP1 << std::endl;
 
 
-    uint32_t TotalCountP2 = GetFullYesCount(FileLines);
+    const uint32_t TotalCountP2 = GetFullYesCount(FileLines);
     std::cout << "Total number of questions that everyone in the groups answered yes to is " << TotalCountP2 << std::endl;
 
     return 0;

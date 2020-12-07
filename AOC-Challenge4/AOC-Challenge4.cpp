@@ -8,7 +8,8 @@
 #include <vector>
 #include <regex>
 
-int GetValidPassports(std::vector<std::string> PassportList);
+int GetValidPassportsP1(std::vector<std::string> PassportList);
+int GetValidPassportsP2(std::vector<std::string> PassportList);
 bool ValidateData(std::string Data);
 
 int main()
@@ -20,7 +21,6 @@ int main()
 		std::cout<<"Cant find passport file";
 		return -1;
 	}
-
 
 	std::string FullLineInfo = "";
 	std::vector<std::string> PassportList;
@@ -44,15 +44,46 @@ int main()
 		PassportList.push_back(FullLineInfo);
 	}
 
-	int ValidPassports = GetValidPassports(PassportList);
+	const int ValidPassportsP1 = GetValidPassportsP1(PassportList);
+	std::cout << "There are a total of " << ValidPassportsP1 << " Valid Passports (part 1)" << std::endl;
 
-	std::cout << "There are a total of " << ValidPassports << " Valid Passports" << std::endl;
+	const int ValidPassportsP2 = GetValidPassportsP2(PassportList);
+	std::cout << "There are a total of " << ValidPassportsP2 << " Valid Passports (part 2)" << std::endl;
 
 	return 0;
 }
 
+int GetValidPassportsP1(std::vector<std::string> PassportList)
+{
+	std::vector<std::string> ValidFields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
 
-int GetValidPassports(std::vector<std::string> PassportList)
+	int ValidPassports = 0;
+
+	bool valid = true;
+
+	for (std::vector<std::string>::iterator it = PassportList.begin(); it != PassportList.end(); ++it)
+	{
+		valid = true;
+
+		for (std::vector<std::string>::iterator vit = ValidFields.begin(); vit != ValidFields.end(); ++vit)
+		{
+			if (it->find(*vit) == std::string::npos)
+			{
+				valid = false;
+				break;
+			}
+		}
+
+		if (valid)
+		{
+			ValidPassports++;
+		}
+	}
+
+	return ValidPassports;
+}
+
+int GetValidPassportsP2(std::vector<std::string> PassportList)
 {
 	std::vector<std::string> ValidFields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
 
@@ -95,8 +126,8 @@ bool ValidateData(std::string Data)
 
 	for (std::vector<std::string>::iterator it = Catagories.begin(); it != Catagories.end(); ++it)
 	{
-		std::size_t pos = it->find(":") + 1;
-		std::string Data = it->substr(pos);
+		const std::size_t pos = it->find(":") + 1;
+		const std::string Data = it->substr(pos);
 
 		if (it->find("byr") != std::string::npos)
 		{
@@ -121,8 +152,8 @@ bool ValidateData(std::string Data)
 		}
 		else if (it->find("hgt") != std::string::npos)
 		{
-			std::size_t cmcheck = it->find("cm");
-			std::size_t incheck = it->find("in");
+			const std::size_t cmcheck = it->find("cm");
+			const std::size_t incheck = it->find("in");
 			if (cmcheck != std::string::npos)
 			{
 				if (std::stoi(Data) < 150 || std::stoi(Data) > 193)

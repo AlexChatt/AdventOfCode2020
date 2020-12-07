@@ -53,7 +53,7 @@ int main()
 
 bool TaskOne(std::vector<std::vector<char>> CurrentMap)
 {
-    int TreesHit = GetTreesHitWithPath(CurrentMap, 3, 1);
+    const int TreesHit = GetTreesHitWithPath(CurrentMap, 3, 1);
 
     if (TreesHit != -1)
     {
@@ -102,7 +102,7 @@ bool TaskTwo(std::vector<std::vector<char>> CurrentMap)
 
 int GetTreesHitWithPath(std::vector<std::vector<char>> CurrentMap, uint16_t acrossjump, uint16_t downjump)
 {
-    char TreeIcon = '#';
+    const char TreeIcon = '#';
     int TressHit = 0;
 
     uint16_t CurrentXIndex = 0;
@@ -113,7 +113,7 @@ int GetTreesHitWithPath(std::vector<std::vector<char>> CurrentMap, uint16_t acro
         return -1;
     }
 
-    int maxtries = CurrentMap.size() * CurrentMap[0].size();
+    const int maxtries = CurrentMap.size() * CurrentMap[0].size();
     int attempts = 0;
 
     while (CurrentYIndex < CurrentMap.size())
@@ -128,7 +128,7 @@ int GetTreesHitWithPath(std::vector<std::vector<char>> CurrentMap, uint16_t acro
 
         if (CurrentXIndex >= CurrentMap[0].size())
         {
-            int sub = CurrentXIndex - CurrentMap[0].size();
+            const int sub = CurrentXIndex - CurrentMap[0].size();
             CurrentXIndex = sub;
         }
 

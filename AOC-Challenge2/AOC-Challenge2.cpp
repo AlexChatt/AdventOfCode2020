@@ -19,7 +19,7 @@ int main()
 		return -1;
 	}
 
-	std::regex PasswordSearchReg("[^0-9]*([0-9]+)-*([0-9]+) ([a-z]): ([a-z]*)");
+	const std::regex PasswordSearchReg("[^0-9]*([0-9]+)-*([0-9]+) ([a-z]): ([a-z]*)");
 
 	int NumberValidPasswordsP1 = 0;
 	int NumberValidPasswordsP2 = 0;
