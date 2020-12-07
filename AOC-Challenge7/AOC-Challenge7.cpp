@@ -12,7 +12,7 @@ uint32_t GoldBagHolderCount(std::vector<std::string> BagTypes);
 
 std::vector<Bag> GetAllBagRules(std::vector<std::string> bags);
 std::pair<std::string, uint16_t> GetSubBagInfo(std::string SubBagRule);
-uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules, int MyBagCount);
+uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules);
 
 int main()
 {
@@ -23,7 +23,7 @@ int main()
 
     std::vector<Bag> BagRules = GetAllBagRules(FileLines);
 
-    uint32_t GoldBagContainsCount = NumBagGoldHoldsCount("shiny gold", BagRules, 0);
+    uint32_t GoldBagContainsCount = NumBagGoldHoldsCount("shiny gold", BagRules);
     std::cout << "Total number of bags contained in a Gold Bags is " << GoldBagContainsCount << std::endl;
 
     return -1;
@@ -152,9 +152,9 @@ std::pair<std::string, uint16_t> GetSubBagInfo(std::string SubBagRule)
     return std::pair<std::string, uint16_t>("ErrorBag",0);
 }
 
-uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules, int MyBagCount)
+uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules)
 {
-    uint32_t ContainerCount = MyBagCount;
+    uint32_t ContainerCount = 0;
 
     for (std::vector<Bag>::iterator Bit = BagRules.begin(); Bit != BagRules.end(); ++Bit)
     {
@@ -163,8 +163,9 @@ uint32_t NumBagGoldHoldsCount(std::string BaseBag, std::vector<Bag> BagRules, in
             for (std::vector<std::pair<std::string, uint16_t>>::iterator pairit = Bit->ContainedBags.begin();
                 pairit != Bit->ContainedBags.end(); ++pairit)
             {
-                int SubBagCount = (NumBagGoldHoldsCount(pairit->first, BagRules, pairit->second));
-                ContainerCount += std::max(MyBagCount,1) * SubBagCount;
+                int SubBagCount = pairit->second;
+                SubBagCount += pairit->second * (NumBagGoldHoldsCount(pairit->first, BagRules));
+                ContainerCount += SubBagCount;
             }
         }
     }
