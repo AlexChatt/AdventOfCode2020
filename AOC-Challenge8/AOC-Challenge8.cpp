@@ -10,8 +10,6 @@
 std::vector<std::string> GetLinesFromFile(std::string FileName);
 std::vector<operation> GetLinesFromFile(std::vector<std::string> &OperationsListText);
 
-int32_t GetFirstCountAccumulator(std::vector<operation> OperationsListText);
-
 int32_t CorrectionChecking(std::vector<operation>& OperationsListText);
 int32_t AttemptFinalCountAccumulator(std::vector<operation> OperationsListText, bool& TrueEnd);
 
@@ -20,9 +18,9 @@ int main()
     std::vector<std::string> FileLines = GetLinesFromFile("input.txt");
     std::vector<operation> OperationsList = GetLinesFromFile(FileLines);
 
-    int32_t P1Accumulator = GetFirstCountAccumulator(OperationsList);
+    bool Waste;
+    int32_t P1Accumulator = AttemptFinalCountAccumulator(OperationsList, Waste);
     std::cout << "The Accumulator is at count " << P1Accumulator << std::endl;
-
 
     int32_t P2Accumulator = CorrectionChecking(OperationsList);
     std::cout << "The Accumulator finishes at count " << P2Accumulator << std::endl;
@@ -107,36 +105,6 @@ std::vector<operation> GetLinesFromFile(std::vector<std::string> &OperationsList
     }
 
     return OpList;
-}
-
-int32_t GetFirstCountAccumulator(std::vector<operation> OperationsListText)
-{
-    int32_t accumulator = 0;
-
-    for (int i = 0; i < OperationsListText.size();)
-    {
-        if (OperationsListText[i].visited == true)
-        {
-            break;
-        }
-        OperationsListText[i].visited = true;
-
-        if (OperationsListText[i].op == OpType::acc)
-        {
-            accumulator += OperationsListText[i].Number;
-            i++;
-        }
-        else if (OperationsListText[i].op == OpType::jmp)
-        {
-            i += OperationsListText[i].Number;
-        }
-        else if (OperationsListText[i].op == OpType::nop)
-        {
-            i++;
-        }
-    }
-
-    return accumulator;
 }
 
 int32_t CorrectionChecking(std::vector<operation> &OperationsListText)
