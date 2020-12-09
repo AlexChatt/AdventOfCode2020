@@ -26,7 +26,7 @@ int main()
     uint32_t GoldBagContainsCount = NumBagGoldHoldsCount("shiny gold", BagRules);
     std::cout << "Total number of bags contained in a Gold Bags is " << GoldBagContainsCount << std::endl;
 
-    return -1;
+    return 0;
 }
 
 std::vector<std::string> GetLinesFromFile(std::string FileName)
