@@ -11,12 +11,13 @@ private:
 	std::vector<std::vector<char>> Grid;
 
 	std::vector<std::pair <int16_t, int16_t>> P1AdjacentPairs;
-	std::vector<std::pair <int16_t, int16_t>> P2AdjacentPairs;
 
 	int GetAdjacentOfTypeP1(uint16_t CutOff, IndexPair IndexSet);
 
 	int GetAdjacentOfTypeP2(IndexPair IndexSet);
 	bool IsSeatInPattern(IndexPair Index, IndexPair Pattern);
+
+	uint16_t GetOccupiedSeatsTotal();
 
 	bool OutOfBounds(IndexPair IndexSet);
 	void DrawGrid();

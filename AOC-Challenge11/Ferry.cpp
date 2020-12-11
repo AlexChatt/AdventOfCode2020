@@ -16,23 +16,6 @@ Ferry::Ferry()
 		P1AdjacentPairs.push_back(std::make_pair(i, j));
 		P1AdjacentPairs.push_back(std::make_pair(j, i));
 	}
-
-	for (int i = 1, j = -1; i <= 8 && j >= -8; i++, j--)
-	{
-		P2AdjacentPairs.push_back(std::make_pair(i, 0));
-		P2AdjacentPairs.push_back(std::make_pair(j, 0));
-
-		P2AdjacentPairs.push_back(std::make_pair(0, i));
-		P2AdjacentPairs.push_back(std::make_pair(0, j));
-
-		P2AdjacentPairs.push_back(std::make_pair(i, i));
-		P2AdjacentPairs.push_back(std::make_pair(j, j));
-
-		P2AdjacentPairs.push_back(std::make_pair(i, j));
-		P2AdjacentPairs.push_back(std::make_pair(j, i));
-	}
-
-
 }
 
 void Ferry::SetSeatingGrid(std::vector<std::vector<char>> SeatGrid)
@@ -42,7 +25,6 @@ void Ferry::SetSeatingGrid(std::vector<std::vector<char>> SeatGrid)
 
 uint16_t Ferry::GetOccupiedSeatsP1()
 {
-	uint16_t OccupiedSeats = 0;
 	uint16_t OccSeatTol = 4;
 	bool HasAnythingChanged = false;
 	std::vector<std::vector<char>> GridChanges = Grid;
@@ -77,23 +59,11 @@ uint16_t Ferry::GetOccupiedSeatsP1()
 	} 
 	while (HasAnythingChanged);
 
-	for (int i = 0; i < Grid.size(); i++)
-	{
-		for (int j = 0; j < Grid[i].size(); j++)
-		{
-			if (Grid[i][j] == '#')
-			{
-				OccupiedSeats++;
-			}
-		}
-	}
-
-	return OccupiedSeats;
+	return GetOccupiedSeatsTotal();
 }
 
 uint16_t Ferry::GetOccupiedSeatsP2()
 {
-	uint16_t OccupiedSeats = 0;
 	uint16_t OccSeatTol = 5;
 	bool HasAnythingChanged = false;
 	std::vector<std::vector<char>> GridChanges = Grid;
@@ -128,6 +98,14 @@ uint16_t Ferry::GetOccupiedSeatsP2()
 
 	} while (HasAnythingChanged);
 
+
+	return GetOccupiedSeatsTotal();
+}
+
+uint16_t Ferry::GetOccupiedSeatsTotal()
+{
+	uint16_t OccupiedSeats = 0;
+
 	for (int i = 0; i < Grid.size(); i++)
 	{
 		for (int j = 0; j < Grid[i].size(); j++)
@@ -148,7 +126,7 @@ int Ferry::GetAdjacentOfTypeP1(uint16_t CutOff, IndexPair IndexSet)
 
 	for (int i = 0; i < P1AdjacentPairs.size(); i++)
 	{
-		IndexPair Npair(IndexSet.X + P2AdjacentPairs[i].first, IndexSet.Y + P2AdjacentPairs[i].second);
+		IndexPair Npair(IndexSet.X + P1AdjacentPairs[i].first, IndexSet.Y + P1AdjacentPairs[i].second);
 
 		if (!OutOfBounds(Npair))
 		{
