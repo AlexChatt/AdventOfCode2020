@@ -86,7 +86,7 @@ int64_t BinaryToDecimal(std::string Binary)
 
     int64_t Value = 0;
 
-    for (int i = Binary.size() - 1; i > 0; i--)
+    for (int i = Binary.size() - 1; i >= 0; i--)
     {
         if (Binary[i] == '1')
         {
