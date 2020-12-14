@@ -100,7 +100,7 @@ long long P2GetEarliestTimeStamp(const std::vector<std::string> BusInfo)
 
     std::istringstream ss(BusInfo[1]);
     std::string temp;
-    int Total = 0, LineNum = 0;
+    int Total = 0, InputNum = 0;
     std::vector<int> BusIDs;
     std::vector<int> num, rem;
 
@@ -109,9 +109,9 @@ long long P2GetEarliestTimeStamp(const std::vector<std::string> BusInfo)
         if (temp != "x")
         {
             num.push_back(std::stoi(temp));
-            rem.push_back(std::stoi(temp) - LineNum);
+            rem.push_back(std::stoi(temp) - InputNum);
         }
-        LineNum++;
+        InputNum++;
     }
 
     long long prod = 1;
