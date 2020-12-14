@@ -88,7 +88,6 @@ uint32_t P1GetEarliestBusMult(const std::vector<std::string> BusInfo)
     }
 
     return BestBusID * WaitTime;
-
 }
 
 long long P2GetEarliestTimeStamp(const std::vector<std::string> BusInfo)
