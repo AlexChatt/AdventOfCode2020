@@ -14,7 +14,7 @@ int main()
 
     std::cout << "P1: 2020 element = " << GetPosNumber(Numbers, 2020) << std::endl;
 
-    std::cout << "P2: 2020 element = " << GetPosNumber(Numbers, 30000000) << std::endl;
+    std::cout << "P2: 30000000 element = " << GetPosNumber(Numbers, 30000000) << std::endl;
 
     return 0;
 }
