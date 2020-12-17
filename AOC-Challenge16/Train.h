@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -15,12 +14,14 @@ private:
 	std::vector<int> MyTicketNumbers;
 	std::vector<std::vector<int>> NearbyTicketNumbers;
 
+
 public:
 
 	void GetTicketandRules(const std::string FileName);
-
 	int GetTotalErrorRate();
-	
-	uint64_t GetDepartureMultiTotal();
 
+	void GetCorrectIndexPerRule();
+	void SetLockedIndex();
+
+	uint64_t GetDepartureTotal();
 };

@@ -71,6 +71,7 @@ int Train::GetTotalErrorRate()
 {
     int ErrorRate = 0;
     bool RuleFailed = true;
+    bool DeleteLine = false;
 
     for (int i = 0; i < NearbyTicketNumbers.size(); i++)
     {
@@ -83,25 +84,112 @@ int Train::GetTotalErrorRate()
                 if (RuleList[r].DoesNumberFitInRule(NearbyTicketNumbers[i][j]))
                 {
                     RuleFailed = false;
+                    break;
                 }
             }
 
             if (RuleFailed)
             {
                 ErrorRate += NearbyTicketNumbers[i][j];
-                NearbyTicketNumbers[i].erase(NearbyTicketNumbers[i].begin() + j);
-                j--;
+                DeleteLine = true;
             }
+        }
+
+        if (DeleteLine)
+        {
+            DeleteLine = false;
+            NearbyTicketNumbers.erase(NearbyTicketNumbers.begin() + i);
+            i--;
         }
     }
     
     return ErrorRate;
 }
 
-uint64_t Train::GetDepartureMultiTotal()
+
+void Train::GetCorrectIndexPerRule()
 {
-    uint64_t DepartureMultiTotal = 0;
+    bool RuleMatch = true;
+    uint16_t Index = 0;
 
+    for (int r = 0; r < RuleList.size(); r++)
+    {
+        while (Index < NearbyTicketNumbers[0].size())
+        {
+            for (int i = 0; i < NearbyTicketNumbers.size(); i++)
+            {
+                if (!RuleList[r].DoesNumberFitInRule(NearbyTicketNumbers[i][Index]))
+                {
+                    RuleMatch = false;
+                    break;
+                }
+            }
 
-    return DepartureMultiTotal;
+            if (RuleMatch == true)
+            {
+                RuleList[r].AddPossibleTicketIndex(Index);
+            }
+
+            Index++;
+            RuleMatch = true;
+        }
+
+        Index = 0;
+    }
+    SetLockedIndex();
+}
+
+void Train::SetLockedIndex()
+{
+    int TakenIndex;
+    bool FoundAll = false;
+
+    while (!FoundAll)
+    {
+        for (int r = 0; r < RuleList.size(); r++)
+        {
+            if (RuleList[r].GetRuleTicketIndex() != -1)
+            {
+                continue;
+            }
+
+            std::vector<int> possibleIndexes = RuleList[r].GetPossibleIndex();
+            if (possibleIndexes.size() == 1)
+            {
+                TakenIndex = possibleIndexes[0];
+                RuleList[r].SetRuleIndexForTicket(TakenIndex);
+                for (int r2 = 0; r2 < RuleList.size(); r2++)
+                {
+                    RuleList[r2].RemovePossibleIndex(TakenIndex);
+                }
+                break;
+            }
+        }
+
+        FoundAll = true;
+        for (int r = 0; r < RuleList.size(); r++)
+        {
+            if (RuleList[r].GetRuleTicketIndex() == -1)
+            {
+                FoundAll = false;
+                break;
+            }
+        }
+    }
+
+}
+
+uint64_t Train::GetDepartureTotal()
+{
+    uint64_t DepartureTotal = 1;
+    
+    for (int i = 0; i < RuleList.size(); i++)
+    {
+        if (RuleList[i].GetName().find("departure") != std::string::npos)
+        {
+            DepartureTotal *= MyTicketNumbers[RuleList[i].GetRuleTicketIndex()];
+        }
+    }
+
+    return DepartureTotal;
 }
