@@ -18,9 +18,15 @@
     <ClCompile Include="AOC-Challenge14.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DockingData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MaskMemSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DockingData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
