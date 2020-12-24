@@ -24,6 +24,9 @@ private:
 	void NeighbourCountChange3D(Vector3 IndexPos, bool DoIIncrease);
 	void NeighbourCountChange4D(Vector4 IndexPos, bool DoIIncrease);
 
+	bool AmIInBounds(Vector3 IndexPos);
+	bool AmIInBounds(Vector4 IndexPos);
+
 public:
 
 	int GetStartingGrid(std::string FileName);

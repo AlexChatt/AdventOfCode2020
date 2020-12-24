@@ -163,7 +163,8 @@ void PocketDimention::NeighbourCountChange3D(Vector3 IndexPos, bool DoIIncrease)
 		{
 			for (int k = -1; k <= 1; k++)
 			{
-				if (!(i == 0 && j == 0 && k == 0))
+				if (!(i == 0 && j == 0 && k == 0) 
+					&& AmIInBounds(Vector3(IndexPos.X + i, IndexPos.Y + j, IndexPos.Z + k)))
 				{
 					if (DoIIncrease)
 					{
@@ -261,7 +262,8 @@ void PocketDimention::NeighbourCountChange4D(Vector4 IndexPos, bool DoIIncrease)
 			{
 				for (int w = -1; w <= 1; w++)
 				{
-					if (!(i == 0 && j == 0 && k == 0 && w == 0))
+					if (!(i == 0 && j == 0 && k == 0 && w == 0)
+						&& AmIInBounds(Vector4(IndexPos.X + i, IndexPos.Y + j, IndexPos.Z + k, IndexPos.W + w)))
 					{
 						if (DoIIncrease)
 						{
@@ -282,4 +284,28 @@ void PocketDimention::NeighbourCountChange4D(Vector4 IndexPos, bool DoIIncrease)
 void PocketDimention::SetCycles(uint32_t NewCycles)
 {
 	Cycles = NewCycles;
+}
+
+bool PocketDimention::AmIInBounds(Vector3 IndexPos)
+{
+	if (IndexPos.X < 0 || IndexPos.Y < 0 || IndexPos.Z < 0
+		|| IndexPos.X >= MaxWidth || IndexPos.Y >= MaxHeight || IndexPos.Z >= MaxDepth)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool PocketDimention::AmIInBounds(Vector4 IndexPos)
+{
+	if (IndexPos.X < 0 || IndexPos.Y < 0 || IndexPos.Z < 0 || IndexPos.W < 0
+		|| IndexPos.X >= MaxWidth || IndexPos.Y >= MaxHeight || IndexPos.Z >= MaxDepth 
+		|| IndexPos.W >= MaxDepth)
+	{
+		return false;
+	}
+
+	return true;
+
 }
