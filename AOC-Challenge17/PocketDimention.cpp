@@ -157,25 +157,21 @@ int PocketDimention::Get3DCyclesCubeCount()
 
 void PocketDimention::NeighbourCountChange3D(Vector3 IndexPos, bool DoIIncrease)
 {
-	uint8_t IndexI = IndexPos.X - 1;
-	uint8_t IndexY = IndexPos.Y - 1;
-	uint8_t IndexZ = IndexPos.Z - 1;
-
-	for (int i = 0; i < 3; i++)
+	for (int i = -1; i <= 1; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = -1; j <= 1; j++)
 		{
-			for (int k = 0; k < 3; k++)
+			for (int k = -1; k <= 1; k++)
 			{
-				if (!(i == 1 && j == 1 && k == 1))
+				if (!(i == 0 && j == 0 && k == 0))
 				{
 					if (DoIIncrease)
 					{
-						Grid3DNeighbour[IndexI + i][IndexY + j][IndexZ + k] += 1;
+						Grid3DNeighbour[IndexPos.X + i][IndexPos.Y + j][IndexPos.Z + k] += 1;
 					}
 					else
 					{
-						Grid3DNeighbour[IndexI + i][IndexY + j][IndexZ + k] -= 1;
+						Grid3DNeighbour[IndexPos.X + i][IndexPos.Y + j][IndexPos.Z + k] -= 1;
 					}
 				}
 			}
@@ -257,28 +253,23 @@ int PocketDimention::Get4DCyclesCubeCount()
 
 void PocketDimention::NeighbourCountChange4D(Vector4 IndexPos, bool DoIIncrease)
 {
-	uint8_t IndexI = IndexPos.X - 1;
-	uint8_t IndexY = IndexPos.Y - 1;
-	uint8_t IndexZ = IndexPos.Z - 1;
-	uint8_t IndexW = IndexPos.W - 1;
-
-	for (int i = 0; i < 3; i++)
+	for (int i = -1; i <= 1; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = -1; j <= 1; j++)
 		{
-			for (int k = 0; k < 3; k++)
+			for (int k = -1; k <= 1; k++)
 			{
-				for (int w = 0; w < 3; w++)
+				for (int w = -1; w <= 1; w++)
 				{
-					if (!(i == 1 && j == 1 && k == 1 && w == 1))
+					if (!(i == 0 && j == 0 && k == 0 && w == 0))
 					{
 						if (DoIIncrease)
 						{
-							Grid4DNeighbour[IndexI + i][IndexY + j][IndexZ + k][IndexW + w] += 1;
+							Grid4DNeighbour[IndexPos.X + i][IndexPos.Y + j][IndexPos.Z + k][IndexPos.W + w] += 1;
 						}
 						else
 						{
-							Grid4DNeighbour[IndexI + i][IndexY + j][IndexZ + k][IndexW + w] -= 1;
+							Grid4DNeighbour[IndexPos.X + i][IndexPos.Y + j][IndexPos.Z + k][IndexPos.W + w] -= 1;
 						}
 					}
 				}
