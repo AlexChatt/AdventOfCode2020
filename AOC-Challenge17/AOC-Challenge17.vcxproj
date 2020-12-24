@@ -144,8 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PocketDimention.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
+    <ClInclude Include="VectorStructs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
