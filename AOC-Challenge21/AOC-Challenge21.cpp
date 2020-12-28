@@ -13,9 +13,15 @@ int main()
 
 	std::map<std::string, std::string> Allergens = MyFoodList.GetAllergenList();
 
-	for (std::map<std::string, std::string>::iterator Mapit = Allergens.begin(); Mapit != Allergens.end(); ++Mapit)
+	std::map<std::string, std::string>::iterator Mapit;
+	for (Mapit = Allergens.begin(); Mapit != Allergens.end(); ++Mapit)
 	{
-		std::cout << Mapit->second << ",";
+		std::cout << Mapit->second;
+		if (++Mapit != Allergens.end())
+		{
+			std::cout << ",";
+		}
+		--Mapit;
 	}
 
 }

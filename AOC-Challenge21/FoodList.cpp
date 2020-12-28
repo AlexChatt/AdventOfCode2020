@@ -41,7 +41,8 @@ bool FoodList::SetUpFoodList(const std::string FileName)
 				while (std::getline(iss2, Allergen, ','))
 				{
 					Allergen.erase(std::remove_if(Allergen.begin(), Allergen.end(), std::isspace), Allergen.end());
-					AllergensMap[Allergen].push_back(NewFood);
+					AllergensFoodMap[Allergen].push_back(NewFood);
+					AllergenMap[Allergen] = "";
 				}
 				break;
 			}
@@ -66,7 +67,7 @@ uint16_t FoodList::NonAllergensCount()
 	{
 		InAllCount = 0;
 
-		for (Mapit = AllergensMap.begin(); Mapit != AllergensMap.end(); ++Mapit)
+		for (Mapit = AllergensFoodMap.begin(); Mapit != AllergensFoodMap.end(); ++Mapit)
 		{
 			AmIInAll = true;
 
@@ -105,11 +106,39 @@ uint16_t FoodList::NonAllergensCount()
 
 std::map<std::string, std::string> FoodList::GetAllergenList()
 {
-	std::map<std::string, std::string> AllergenMap;
+	std::map<std::string, std::string>::iterator Mapit;
+	std::vector<std::string>::iterator Ingrediant;
 
-	std::map<std::string, std::vector<Food>>::iterator Mapit;
-
+	bool BadStuffHappen = false;
 	UpdateFoodListAllergen();
+
+	while (!AreAllAllergenIngrediantsFound() && !BadStuffHappen)
+	{
+		for (Mapit = AllergenMap.begin(); Mapit != AllergenMap.end(); ++Mapit)
+		{
+			if (Mapit->second != "") { continue; }
+			if (AllergensFoodMap[Mapit->first].size() == 0) 
+			{ 
+				BadStuffHappen = true;
+				break;
+			}
+
+			std::vector<std::string> PossibleAI = AllergensFoodMap[Mapit->first][0].PossibleAllergensFoods;
+
+			for (Ingrediant = PossibleAI.begin(); Ingrediant != PossibleAI.end(); ++Ingrediant)
+			{
+				if (CheckIngrediantInAll(*Ingrediant, Mapit->first) && 
+					!IsAllergenIngrediantTaken(*Ingrediant))
+				{
+					if (!IsIngrediantInAnyOfAllOthers(*Ingrediant, Mapit->first))
+					{
+						AllergenMap[Mapit->first] = *Ingrediant;
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	return AllergenMap;
 }
@@ -118,19 +147,33 @@ void FoodList::UpdateFoodListAllergen()
 {
 	std::map<std::string, std::vector<Food>>::iterator Mapit;
 
-	for (Mapit = AllergensMap.begin(); Mapit != AllergensMap.end(); ++Mapit)
+	for (Mapit = AllergensFoodMap.begin(); Mapit != AllergensFoodMap.end(); ++Mapit)
 	{
 		for (int i = 0; i < Mapit->second.size(); i++)
 		{
 			Mapit->second[i].SetupPossibleAllergenIngred(NoAllergensIngrediants);
 		}
 	}
+}
 
+bool FoodList::AreAllAllergenIngrediantsFound()
+{
+	std::map<std::string, std::string>::iterator Mapit;
+
+	for (Mapit = AllergenMap.begin(); Mapit != AllergenMap.end(); ++Mapit)
+	{
+		if (Mapit->second == "")
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool FoodList::CheckIngrediantInAll(std::string Ingrediant, std::string AllergenType)
 {
-	std::vector<Food> FoodsForAllergen = AllergensMap[AllergenType];
+	std::vector<Food> FoodsForAllergen = AllergensFoodMap[AllergenType];
 
 	for (int i = 0; i < FoodsForAllergen.size(); i++)
 	{
@@ -141,4 +184,47 @@ bool FoodList::CheckIngrediantInAll(std::string Ingrediant, std::string Allergen
 	}
 
 	return true;
+}
+
+bool FoodList::IsAllergenIngrediantTaken(std::string Ingrediant)
+{
+	std::map<std::string, std::string>::iterator Mapit;
+
+	for (Mapit = AllergenMap.begin(); Mapit != AllergenMap.end(); ++Mapit)
+	{
+		if (Mapit->second == Ingrediant)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool FoodList::IsIngrediantInAnyOfAllOthers(std::string Ingrediant, std::string CurrentAl)
+{
+	std::map<std::string, std::vector<Food>>::iterator Mapit;
+
+	for (Mapit = AllergensFoodMap.begin(); Mapit != AllergensFoodMap.end(); ++Mapit)
+	{
+		if (Mapit->first == CurrentAl) { continue; }
+
+		bool InAll = true;
+
+		for (int i = 0; i < Mapit->second.size(); i++)
+		{
+			if (!Mapit->second[i].DoPossibleAllergensContain(Ingrediant))
+			{
+				InAll = false;
+				break;
+			}
+		}
+
+		if (InAll && AllergenMap[Mapit->first] == "")
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
