@@ -7,7 +7,6 @@
 #include <map>
 
 #include "Food.h"
-#include "Allergen.h"
 
 class FoodList
 {
@@ -18,9 +17,7 @@ private:
 
 	std::set<std::string> NoAllergensIngrediants;
 
-	std::map<std::string, Allergen> AllergenIngerMap;
-
-	void CreateAllergenFoods(std::string AllergenName);
+	void UpdateFoodListAllergen();
 
 	bool CheckIngrediantInAll(std::string Ingrediant, std::string AllergenType);
 

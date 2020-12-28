@@ -105,28 +105,40 @@ uint16_t FoodList::NonAllergensCount()
 
 std::map<std::string, std::string> FoodList::GetAllergenList()
 {
+	std::map<std::string, std::string> AllergenMap;
+
+	std::map<std::string, std::vector<Food>>::iterator Mapit;
+
+	UpdateFoodListAllergen();
+
+	return AllergenMap;
+}
+
+void FoodList::UpdateFoodListAllergen()
+{
 	std::map<std::string, std::vector<Food>>::iterator Mapit;
 
 	for (Mapit = AllergensMap.begin(); Mapit != AllergensMap.end(); ++Mapit)
 	{
-		CreateAllergenFoods(Mapit->first);
+		for (int i = 0; i < Mapit->second.size(); i++)
+		{
+			Mapit->second[i].SetupPossibleAllergenIngred(NoAllergensIngrediants);
+		}
 	}
-
-
-
-	//return AllergenMap;
-}
-
-void FoodList::CreateAllergenFoods(std::string AllergenName)
-{
-	Allergen NewAllergen;
-	NewAllergen.Name = AllergenName;
-
-	//for()
 
 }
 
 bool FoodList::CheckIngrediantInAll(std::string Ingrediant, std::string AllergenType)
 {
+	std::vector<Food> FoodsForAllergen = AllergensMap[AllergenType];
 
+	for (int i = 0; i < FoodsForAllergen.size(); i++)
+	{
+		if (!FoodsForAllergen[i].DoPossibleAllergensContain(Ingrediant))
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
